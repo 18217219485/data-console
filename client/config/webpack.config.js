@@ -4,8 +4,8 @@
 const webpack = require('webpack'); // 访问内置插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const apiMocker = require('webpack-api-mocker');
-const mocker = path.resolve(__dirname, '../mock/index.js');
+// const apiMocker = require('webpack-api-mocker');
+// const mocker = path.resolve(__dirname, '../mock/index.js');
 module.exports = {
     entry: {
         app: path.join(__dirname, '../src/index.js')
@@ -16,13 +16,15 @@ module.exports = {
     },
     devtool: 'eval-source-map',
     devServer: {
-        port: 8009, // 端口号
+        port: 8008, // 端口号
         hot: true, // 是否使用热更新
         compress: true, // 压缩
         historyApiFallback: true,
         contentBase: path.join(__dirname, 'output'), // 从哪里访问文件
-        before(app) {
-            apiMocker(app, mocker);
+        proxy: {
+            '/news': {
+                target: 'http://localhost:8009'
+            }
         }
     },
     module: {
