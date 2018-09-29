@@ -5,7 +5,12 @@
 export default [
     {
         path: '/',
-        page: 'userManage/index.jsx',
+        page: 'login/index.jsx',
+        exact: true
+    },
+    {
+        path: '/login',
+        page: 'login/index.jsx',
         exact: true
     },
     {

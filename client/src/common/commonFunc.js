@@ -38,15 +38,21 @@ let commonFunc = {
             }
             // xhr的得到响应的事件，解析resolve事件
             xhr.onload = function () {
-                if (xhr.readyState === 4) {
-                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-                        console.log(xhr.responseText);
-                        resolve(JSON.parse(xhr.responseText));
-                    }
+                try{
+                  if (xhr.readyState === 4) {
+                      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                          console.log(xhr.responseText);
+                          resolve(JSON.parse(xhr.responseText));
+                      }
+                  }
+                  else {
+                      reject(xhr.status);
+                  }
+                } catch (e) {
+                  console.log(e);
+                  reject(e);
                 }
-                else {
-                    reject(xhr.status);
-                }
+
             };
             // 加载出错事件，执行reject函数
             xhr.onerror = function () {

@@ -22,8 +22,8 @@ module.exports = {
         historyApiFallback: true,
         contentBase: path.join(__dirname, 'output'), // 从哪里访问文件
         proxy: {
-            '/news': {
-                target: 'http://localhost:8009'
+            '/api/*': {
+                target: 'http://localhost:8080'
             }
         }
     },

@@ -4,7 +4,8 @@
  */
 export default {
     api: {
-        userMessage: '/api/user/message',
-        sendMessage: '/api/send/message'
+        register: '/api/user/register',
+        login: '/api/user/login',
+        logout: '/api/user/logout'
     }
 };

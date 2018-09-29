@@ -2,45 +2,52 @@
  * @file 配置的本地页面数据
  * @date 2018-07-25
  */
-const OPTIONS = {
-    COMPANY_TYPE: [
-        {
-            displayName: '个体工商户',
-            value: 'G'
-        },
-        {
-            displayName: '大型企业',
-            value: 'D'
-        }
-    ]
-};
 export default {
-    LOGIN: {
-        base: [
+    INDEX: {
+        register: [
             {
-                type: 'text',
+                type: 'input',
                 name: 'username',
-                displayName: '用户名',
                 defaultValue: '',
-                isRequired: false,
-                options: null
+                placeholder: '请输入用户名',
+                message: '请输入用户名',
+                iconName: 'user'
             },
             {
-                type: 'text',
+                type: 'input',
                 name: 'password',
-                displayName: '密码',
                 defaultValue: '',
-                isRequired: false,
-                options: null
+                placeholder: '请输入密码',
+                inputType: 'new-password',
+                message: '请输入密码',
+                iconName: 'lock'
             },
             {
-                type: 'select',
-                name: 'companyType',
-                displayName: '商户类型',
+                type: 'input',
+                name: 'repassword',
                 defaultValue: '',
-                isRequired: false,
-                size: 'large',
-                options: OPTIONS.COMPANY_TYPE
+                placeholder: '请输入确认密码',
+                inputType: 'new-password',
+                message: '请输入确认密码'
+            }
+        ],
+        login: [
+            {
+                type: 'input',
+                name: 'username',
+                defaultValue: '',
+                placeholder: '请输入用户名',
+                message: '请输入用户名',
+                iconName: 'user'
+            },
+            {
+                type: 'input',
+                name: 'password',
+                defaultValue: '',
+                placeholder: '请输入密码',
+                inputType: 'new-password',
+                message: '请输入密码',
+                iconName: 'lock'
             }
         ]
     }

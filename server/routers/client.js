@@ -5,7 +5,7 @@
 var express = require('express');
 var router = express.Router();
 // 用模板的方式，服务端渲染
-router.get('/', function (req, res, next) {
-    res.render('main/index');
+router.get('/user', function (req, res) {
+    res.send('user');
 });
 module.exports = router;

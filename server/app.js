@@ -6,9 +6,10 @@ var express = require('express');
 var swig = require('swig');
 var mongoose = require('mongoose');
 var app = express();
+var bodyParser = require('body-parser');
 // 设置静态文件托管
 app.use('/public', express.static(__dirname + '/public'));
-
+app.use(bodyParser.urlencoded({extended: true}));
 // 配置应用模板,定义模板引擎
 app.engine('html', swig.renderFile);
 
@@ -32,7 +33,14 @@ mongoose.connect('mongodb://localhost/blog', {useNewUrlParser: true}, function (
     }
 	else {
         console.log('数据库连接成功');
-        app.listen(8081);
+        // app.listen(8080, () => console.log('Example app listening on port 3000!'));
+        app.listen({
+          host: '127.0.0.1',
+          port: 8080
+        });
     }
 });
-
+process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
+  console.log('unhandledRejection', error.message);
+});

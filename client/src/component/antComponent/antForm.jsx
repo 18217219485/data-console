@@ -1,14 +1,18 @@
 /**
  * @file 基于antd自带的Form表单，进行二次封装，实现页面可配置
  * @date 2018-07-25   complete 2018-07-26
+ * @author chenling
  */
 import React from 'react';
 import {Form, Input, Select, Radio, Upload, Button, DatePicker, Icon} from 'antd';
 const FormItem = Form.Item;
 
-class AntForm extends React.Component {
+export default class AntForm extends React.Component {
 
     defaultOptions = {
+        libs: {
+            getFieldDecorator: null
+        },
         formItemlayout: {
             labelCol: {span: 6},
             wrapperCol: {span: 10, offset: 1}
@@ -44,10 +48,11 @@ class AntForm extends React.Component {
     */
 
     handleForm = (localData, outsideData, outsideOptions) => {
-
+        
         let options = Object.assign(this.defaultOptions, outsideOptions);
         let layout = options.formItemlayout;
         let data = localData && this.handleMergeData(localData, outsideData);
+        let getFieldDecorator = options.libs.getFieldDecorator;
 
         return data && Array.isArray(data) && data.map((item, index) => {
 
@@ -58,7 +63,7 @@ class AntForm extends React.Component {
                 key: index
             });
             let rules = [{
-                isRequired: item.isRequired,
+                required: item.isRequired,
                 message: item.message
             }];
             if (item.type === 'text') {
@@ -69,16 +74,19 @@ class AntForm extends React.Component {
                 );
             }
             else if (item.type === 'input') {
+                const inputPrefix = item.iconName ? <Icon type={item.iconName}></Icon> : null;
                 return (
                     <FormItem {...formItemRules}>
                         {
-                            this.props.getFieldDecorator(item.name, {
+                            getFieldDecorator(item.name, {
                                 rules
                             })(
                                <Input
                                 placeholder = {item.placeholder || null}
                                 disabled = {item.disabled || false}
                                 onChange = {options.events.inputChange}
+                                type = {item.inputType}
+                                prefix = {inputPrefix}
                                />
                            )
                         }
@@ -89,7 +97,7 @@ class AntForm extends React.Component {
                 return (
                     <FormItem {...formItemRules}>
                         {
-                            this.props.form.getFieldDecorator(item.name, {
+                            getFieldDecorator(item.name, {
                                 rules
                             })(
                                 <Select
@@ -115,7 +123,7 @@ class AntForm extends React.Component {
                 return (
                     <FormItem {...formItemRules}>
                         {
-                            this.props.form.getFieldDecorator(item.name, {
+                            getFieldDecorator(item.name, {
                                 rules
                             })(
                                 <Radio.Group
@@ -151,7 +159,7 @@ class AntForm extends React.Component {
                 return (
                     <FormItem {...formItemRules}>
                         {
-                            this.props.form.getFieldDecorator(item.displayName)(
+                            getFieldDecorator(item.name)(
                                 <Upload {...uploadRules}>
                                     <Button><Icon type='upload'/>Click to Upload</Button>
                                 </Upload>
@@ -164,7 +172,7 @@ class AntForm extends React.Component {
                 return (
                     <FormItem {...formItemRules}>
                         {
-                            this.props.form.getFieldDecorator()(
+                            getFieldDecorator(item.name)(
                                 <DatePicker size={item.size} onChange={options.events.dateChange}/>
                             )
                         }
@@ -175,8 +183,7 @@ class AntForm extends React.Component {
     }
     render() {
         return (
-            <div>{this.handleForm(this.props.localData, this.props.outsideData)}</div>
+            <div>{this.handleForm(this.props.localData, this.props.outsideData, this.props.outsideOptions)}</div>
         );
     }
-}
-export default Form.create()(AntForm);
+};
