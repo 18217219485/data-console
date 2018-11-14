@@ -3,7 +3,6 @@
  * @date 2018-09-17
  */
 var express = require('express');
-var cookies = require('cookies');
 var router = express.Router();
 var User = require('../models/Users');
 var responseData = {
@@ -15,7 +14,6 @@ router.post('/user/register', function (req, res, next) {
     var username = req.body.username,
         password = req.body.password,
         repassword = req.body.repassword;
-    console.log(username, password);
     if (!username || username === 'undefined') {
         responseData.code = 1;
         responseData.message = '用户名不能为空';
@@ -61,7 +59,6 @@ router.post('/user/login', function (req, res, next) {
     // 查询数据库，输入的用户名是否注册，以及用户名对应的密码是否一致
     var username = req.body.username;
     var password = req.body.password;
-    console.log(username, password);
     if (username === '' || password === '') {
         responseData.code = 1;
         responseData.message = '用户名或密码不能为空';
@@ -80,10 +77,23 @@ router.post('/user/login', function (req, res, next) {
         }
         responseData.code = 0;
         responseData.message = '登陆成功';
+        // 登陆成功之后，将用户信息存储到cookie中
+        req.cookies.set('userInfor', JSON.stringify({
+          _id: userInfor._id,
+          username: userInfor.username
+        }));
         res.json(responseData);
         return;
     });
 });
-router.post('/user/logout', function (req, res, next) {
+// 退出登陆信息，就是清空cookies
+router.get('/user/logout', function (req, res, next) {
+  req.cookies.set({
+    'userInfor': null
+  });
+  responseData.code = 0;
+  responseData.message = '退出成功';
+  res.json(responseData);
+  return;
 });
 module.exports = router;

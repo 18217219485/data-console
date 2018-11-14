@@ -82,7 +82,7 @@ export default class Nav extends React.Component {
     render() {
         return (
             <div>
-                <div style={{minHeight: '20vh'}}></div>
+                <div style={{minHeight: '10vh'}}></div>
                 <MainMenu/>
             </div>
         );

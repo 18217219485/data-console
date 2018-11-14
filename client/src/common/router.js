@@ -4,16 +4,6 @@
  */
 export default [
     {
-        path: '/',
-        page: 'login/index.jsx',
-        exact: true
-    },
-    {
-        path: '/login',
-        page: 'login/index.jsx',
-        exact: true
-    },
-    {
         path: '/userManage',
         page: 'userManage/index.jsx',
         exact: false

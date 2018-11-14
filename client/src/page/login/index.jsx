@@ -67,7 +67,7 @@ class Login extends React.Component {
                     data: values
                 }).then(data => {
                     if (data.code === 0) {
-                      window.location.href="userManage";
+                        this.props.history.push('/userManage');
                     }
                 }).catch(new Function());
             }

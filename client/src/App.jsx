@@ -2,7 +2,7 @@
  * 项目根组件
 */
 import React from 'react';
-import {Layout} from 'antd';
+import {Layout, Icon} from 'antd';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import Nav from './component/nav/index.jsx';
 import Login from './page/login/index.jsx';
@@ -12,15 +12,10 @@ import './App.less';
 
 const {Sider, Header, Footer, Content} = Layout;
 
-
 const RenderRouter = () => (
     <Switch>
         {
             Array.isArray(routers) && routers.map(item => {
-                // 循环了两次
-                if (item.page && item.page) {
-
-                }
                 let DynamicComponent = item.page ? require(`./page/${item.page}`).default : null;
                 return (
                     <Route
@@ -32,43 +27,55 @@ const RenderRouter = () => (
                 );
             })
         }
-        <Route><Redirect to="/userManage"/></Route>
     </Switch>
 );
-// const RenderRouter = () => (
-//   <Switch>
-// )
-const Main = () => (
-    <Router>
-        <Layout className="page-layout">
-            <Sider><Nav/></Sider>
-            <Layout>
-                <Header></Header>
-                <Content>
-                    <RenderRouter></RenderRouter>
-                </Content>
-                <Footer >
-                    Ant Design ©2018 Created by Ant UED
-                </Footer>
-            </Layout>
-        </Layout>
-    </Router>
-);
+
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loginstatus: true
-        };
+    state = {
+      collapsed: false
+    }
+    handleToggle = () => {
+      this.setState({
+        collapsed: !this.state.collapsed
+      })
     }
     render() {
-        // 判断用户的登陆状态
         return (
-            <div>
-                {
-                    this.state.loginstatus ? <Main/> : <Login/>
-                }
-            </div>
+          <Router>
+              <div>
+                  <Route exact path="/" component={Login}/>
+                  <Layout className="page-layout">
+                      <Sider
+                        trigger = {null}
+                        collapsible
+                        collapsed = {this.state.collapsed}
+                      >
+                        <Nav/>
+                      </Sider>
+                      <Layout>
+                          <Header>
+                              <Icon
+                                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                                onClick = {this.handleToggle}
+                              />
+                              <div>
+                                <a href="/help">帮助中心</a>
+                                <div>
+                                    <span>管理员</span>
+                                    <Icon type="user"/>
+                                </div>
+                              </div>
+                          </Header>
+                          <Content>
+                              <RenderRouter></RenderRouter>
+                          </Content>
+                          <Footer >
+                              Ant Design ©2018 Created by Ant UED
+                          </Footer>
+                      </Layout>
+                  </Layout>
+              </div>
+          </Router>
         );
     }
 }
